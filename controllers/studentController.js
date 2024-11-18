@@ -70,10 +70,19 @@ const loadCourseDetails = async function (req, res) {
     }
 };
 
+const loadHomePage = async function (req, res) {
+    try {
+        res.render('home'); 
+
+    } catch (error) {
+        console.log(error.message);
+    };
+};
 
 module.exports = {
     registerLoad,
     register,
     loadDashboard,
     loadCourseDetails,
+    loadHomePage
 };  

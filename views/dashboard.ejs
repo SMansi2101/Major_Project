@@ -1,7 +1,6 @@
-<!-- views/dashboard.ejs -->
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +8,9 @@
     <!-- Tailwind CSS CDN -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <!-- Font Awesome for Icons (Optional) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2DkKkRJ55WClKj7gI0VZXqw5q4K/fPGMOKgJc++k5/kwmW62T9J1p+mdI1lW7Z9AA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2DkKkRJ55WClKj7gI0VZXqw5q4K/fPGMOKgJc++k5/kwmW62T9J1p+mdI1lW7Z9AA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <!-- AOS CSS for Animations -->
@@ -21,8 +22,15 @@
 
         /* Custom Fade-In Animation */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .animate-fade-in {
@@ -90,7 +98,8 @@
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-blue-50 to-purple-100 relative flex flex-col min-h-screen">
+
+<body class="bg-gray-100 relative flex flex-col min-h-screen">
     <!-- Header -->
     <header class="bg-blue-600 text-white p-4 flex justify-between items-center shadow-lg">
         <div class="flex items-center">
@@ -100,125 +109,76 @@
         </div>
         <div class="flex items-center space-x-4">
             <div class="text-lg font-semibold">
-                Welcome, <span class="text-yellow-300"><%= studentName %></span>
+                Welcome, <span class="text-yellow-300">
+                    <%= studentName %>
+                </span>
             </div>
-            <!-- Optional: Logout Button -->
-            <!-- <button class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">Logout</button> -->
         </div>
     </header>
 
     <!-- Notification Containers (Optional) -->
-    <% if (typeof error !== 'undefined' && error) { %>
+    <% if (typeof error !=='undefined' && error) { %>
         <div class="notification notification-error show">
             <i class="fas fa-exclamation-triangle"></i>
-            <span><%= error %></span>
+            <span>
+                <%= error %>
+            </span>
         </div>
-    <% } %>
-    <% if (typeof success !== 'undefined' && success) { %>
-        <div class="notification notification-success show">
-            <i class="fas fa-check-circle"></i>
-            <span><%= success %></span>
-        </div>
-    <% } %>
-
-    <!-- Main Content -->
-    <main class="p-6 flex-grow">
-        <!-- Welcoming Section -->
-        <section class="bg-white shadow-md rounded-lg p-6 mb-6 animate-fade-in" data-aos="fade-down">
-            <h2 class="text-4xl font-bold text-blue-700 mb-4">Welcome to Your Dashboard!</h2>
-            <p class="text-gray-700 mb-4">We're excited to help you explore various career paths tailored just for you. Dive in and discover opportunities that align with your passions and strengths.</p>
-            <hr class="my-6 border-t-2 border-blue-200">
-            <p class="text-gray-600">Here are some courses to get you started:</p>
-        </section>
-
-        <!-- Courses Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- Course Card Template -->
-            <% 
-                const courses = [
-                    {
-                        name: "Computer Science",
-                        description: "Dive into the world of technology, programming, and software development. Explore various roles in the computer field.",
-                        image: "/images/computer.jpg",
-                        link: "/courses/computer-science",
-                        color: "blue"
-                    },
-                    {
-                        name: "Mechanical Engineering",
-                        description: "Understand the principles of mechanics, thermodynamics, and materials science. Discover various career paths in mechanical engineering.",
-                        image: "/images/mechanical.jpg",
-                        link: "/courses/mechanical-engineering",
-                        color: "green"
-                    },
-                    {
-                        name: "Electrical Engineering",
-                        description: "Explore the world of electrical systems, electronics, and electromagnetism. Learn about various opportunities in electrical engineering.",
-                        image: "/images/electrical.jpg",
-                        link: "/courses/electrical-engineering",
-                        color: "yellow"
-                    },
-                    {
-                        name: "Pharmacy",
-                        description: "Delve into the study of medicines, their effects, and their use in healthcare. Discover career paths in pharmacy and related fields.",
-                        image: "/images/pharmacy.jpg",
-                        link: "/courses/pharmacy",
-                        color: "purple"
-                    },
-                    {
-                        name: "Civil Engineering",
-                        description: "Learn about infrastructure development, construction management, and sustainable design. Explore various roles in civil engineering.",
-                        image: "/images/civil.jpg",
-                        link: "/courses/civil-engineering",
-                        color: "red"
-                    },
-                    {
-                        name: "Chemical Engineering",
-                        description: "Understand the processes involved in the production of chemicals, pharmaceuticals, and energy. Discover career opportunities in chemical engineering.",
-                        image: "/images/chemical.jpg",
-                        link: "/courses/chemical-engineering",
-                        color: "indigo"
-                    }
-                ];
-            %>
-            <% courses.forEach(function(course, index) { %>
-                <div class="bg-white rounded-lg shadow-md overflow-hidden course-card" data-aos="fade-up" data-aos-delay="<%= index * 100 %>">
-                    <img src="<%= course.image %>" alt="<%= course.name %>" class="w-full h-56 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-2xl font-semibold mb-3 text-<%= course.color %>-600"><%= course.name %></h3>
-                        <p class="text-gray-600 mb-6"><%= course.description %></p>
-                        <a href="/courses/<%= course.name %>" class="explore-btn bg-<%= course.color %>-600 text-white px-5 py-3 rounded-full flex items-center justify-center hover:bg-<%= course.color %>-700 transition-colors duration-300">
-                            <span class="mr-2">Explore</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
+        <% } %>
+            <% if (typeof success !=='undefined' && success) { %>
+                <div class="notification notification-success show">
+                    <i class="fas fa-check-circle"></i>
+                    <span>
+                        <%= success %>
+                    </span>
                 </div>
-            <% }) %>            
-        </div>
-    </main>
+                <% } %>
 
-    <!-- Footer -->
-    <footer class="bg-blue-600 text-white p-4 text-center mt-auto shadow-inner">
-        &copy; 2024 CareerExplorer. All rights reserved.
-    </footer>
+                    <!-- Main Content -->
+                    <main class="p-6 flex-grow">
+                        <!-- Welcoming Section -->
+                        <section class="bg-white shadow-md rounded-lg p-6 mb-6 animate-fade-in" data-aos="fade-down">
+                            <h2 class="text-3xl font-bold text-gray-800 mb-4">Welcome to Your Dashboard!</h2>
+                            <p class="text-gray-700 mb-4">We're excited to help you explore various career paths
+                                tailored just for you. Dive in and discover opportunities that align with your passions
+                                and strengths.</p>
+                            <hr class="my-6 border-t-2 border-gray-200">
+                            <p class="text-gray-600">Here are some courses to get you started:</p>
+                        </section>
 
-    <!-- AOS JS for Animations -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-    <script>
-        AOS.init({
-            duration: 800, // Animation duration
-            easing: 'ease-in-out', // Animation easing
-            once: true, // Whether animation should happen only once
-        });
+                        <!-- Courses Grid -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            <!-- Updated Computer Engineering Course Cards -->
 
-        // Auto-hide notifications after 5 seconds
-        window.addEventListener('load', () => {
-            const notifications = document.querySelectorAll('.notification');
-            notifications.forEach(notification => {
-                setTimeout(() => {
-                    notification.classList.remove('show');
-                }, 5000); // 5 seconds
-            });
-        });
-    </script>
+                            <% courses.forEach(function(course){ %>
+                                <!-- Placeholder for course items -->
+                                <div class="p-4 shadow rounded-lg course-container">
+                                    <img src="data:image/jpeg;base64,<%= course.image.toString('base64') %>"
+                                        alt="Course Image" class="w-full h-62 object-cover mb-4 rounded-lg">
+                                    <h2 class="text-xl font-semibold">
+                                        <%= course.name %>
+                                    </h2>
+                                    <p>
+                                        <%= course.description %>
+                                    </p>
+                                </div>
+                                <% }) %>
+                        </div>
+                    </main>
+
+                    <!-- Footer -->
+                    <footer class="bg-blue-600 text-white p-4 text-center mt-auto shadow-inner">
+                        &copy; 2024 CareerExplorer. All rights reserved.
+                    </footer>
+
+                    <!-- AOS JS for Animations -->
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+                    <script>
+                        AOS.init({
+                            duration: 800, // Animation duration
+                            easing: 'ease-out', // Animation easing
+                        });
+                    </script>
 </body>
+
 </html>

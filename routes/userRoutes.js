@@ -3,6 +3,8 @@ const router = express.Router();
 
 const studentController = require('../controllers/studentController');
 
+router.get('/', studentController.loadHomePage);
+
 router.get('/register',studentController.registerLoad);
 router.post('/register',studentController.register);
 

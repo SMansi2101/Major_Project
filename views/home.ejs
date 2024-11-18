@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareerExplorer - Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Button Animations */
+        .btn-animate:hover {
+            transform: translateY(-3px);
+            transition: transform 0.2s ease;
+        }
+
+        /* Sticky header */
+        .sticky {
+            position: -webkit-sticky; /* Safari */
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
+        }
+
+        /* Default background color of header */
+        .header-dark {
+            background-color: #4C51BF; /* Dark Indigo */
+        }
+
+        /* Transparent with light-blue tint background after scrolling */
+        .header-transparent {
+            background-color: rgba(102, 126, 234, 0.6); /* Light Blue Tint */
+            backdrop-filter: blur(5px); /* Slight blur effect for content behind */
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Sticky Navbar/Header -->
+    <header id="header" class="sticky header-dark p-6 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-left">
+                <h1 class="text-3xl text-white font-bold">CareerExplorer</h1>
+            </div>
+            <div>
+                <!-- Buttons moved to header -->
+                <a href="/register" class="bg-indigo-700 text-white px-4 py-2 rounded-lg shadow btn-animate hover:bg-indigo-800 mx-2">Register</a>
+                <a href="/admin/login" class="bg-indigo-700 text-white px-4 py-2 rounded-lg shadow btn-animate hover:bg-indigo-800 mx-2">Admin</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Section -->
+    <main class="container mx-auto my-12">
+        <!-- Introduction Section -->
+        <section class="text-center mb-12">
+            <h2 class="text-3xl font-semibold text-gray-800">Explore Your Career Path</h2>
+            <p class="text-gray-600 mt-6 leading-relaxed max-w-2xl mx-auto">
+                Discover career opportunities tailored to your strengths and interests. Our platform guides students in making informed decisions for their future careers with personalized counseling and quizzes.
+            </p>
+        </section>
+
+        <!-- Overview of User Journey Section -->
+        <section class="bg-white p-8 shadow-md rounded-lg mb-12">
+            <h3 class="text-2xl font-bold text-indigo-500 text-center mb-6">Start Your Journey with CareerExplorer</h3>
+            <div class="space-y-6">
+
+                <div class="text-center">
+                    <h4 class="text-xl font-semibold text-gray-800 mb-2">Create Your Account</h4>
+                    <p class="text-gray-600">Sign up and get instant access to a personalized dashboard filled with career options.</p>
+                </div>
+
+                <div class="text-center">
+                    <h4 class="text-xl font-semibold text-gray-800 mb-2">Take Career Quizzes</h4>
+                    <p class="text-gray-600">Our quizzes help you explore different career paths and find the best match for your skills and interests.</p>
+                </div>
+
+                <div class="text-center">
+                    <h4 class="text-xl font-semibold text-gray-800 mb-2">Receive Personalized Recommendations</h4>
+                    <p class="text-gray-600">Get suggestions on courses and careers that align with your strengths and passion.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="text-center">
+            <a href="/register" class="bg-indigo-600 text-white px-8 py-4 rounded-lg shadow-md btn-animate hover:bg-indigo-700 mx-2">
+                Start Now
+            </a>
+            <a href="/admin/login" class="bg-indigo-600 text-white px-8 py-4 rounded-lg shadow-md btn-animate hover:bg-indigo-700 mx-2">
+                Admin Portal
+            </a>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-indigo-600 p-6 mt-16">
+        <div class="container mx-auto text-center text-white">
+            <p>&copy; 2024 CareerExplorer. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Scroll Detection -->
+    <script>
+        window.addEventListener('scroll', function () {
+            var header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.remove('header-dark');
+                header.classList.add('header-transparent');
+            } else {
+                header.classList.remove('header-transparent');
+                header.classList.add('header-dark');
+            }
+        });
+    </script>
+
+</body>
+</html>

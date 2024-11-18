@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - LinkUp</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+
+    <!-- Admin Panel Container -->
+    <div class="flex min-h-screen">
+
+        <!-- Sidebar -->
+        <div class="w-64 bg-gray-800 text-white">
+            <div class="p-4">
+                <h2 class="text-2xl font-semibold">Admin Panel</h2>
+            </div>
+            <nav class="mt-6">
+                <a href="#" class="block py-2 px-4 bg-gray-700 hover:bg-gray-600 rounded-md" id="course-management">
+                    Course Management
+                </a>
+                <a href="#" class="block py-2 px-4 mt-4 bg-gray-700 hover:bg-gray-600 rounded-md" id="quiz-management">
+                    Quiz Management
+                </a>
+
+                <!-- Logout Button in Sidebar -->
+                <form action="/admin/logout" method="POST" class="mt-4">
+                    <button type="submit" class="w-full py-2 px-4 bg-red-700 hover:bg-red-600 text-white font-semibold rounded-md">
+                        Logout
+                    </button>
+                </form>
+            </nav>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="flex-1 p-10">
+            <h1 class="text-3xl font-semibold text-gray-800">Welcome to the Admin Panel</h1>
+            <p class="text-gray-600 mt-4">Manage the platform by using the options in the sidebar.</p>
+
+            <!-- Placeholder for Course and Quiz Management Content -->
+            <div class="mt-8" id="admin-operations">
+                <div class="p-6 bg-white shadow-lg rounded-lg">
+                    <h2 class="text-xl font-bold mb-4">Admin Operations</h2>
+                    <p class="text-gray-600">Select an operation from the sidebar to manage courses or quizzes.</p>
+                </div>
+            </div>
+
+            <!-- Course Management Form -->
+            <div class="mt-8 hidden" id="course-management-form">
+                <div class="p-6 bg-white shadow-lg rounded-lg">
+                    <h2 class="text-xl font-bold mb-4">Create New Course</h2>
+                    <form action="/admin/create-course" method="post" enctype="multipart/form-data">
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="course-name">
+                                Course Name
+                            </label>
+                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="course-name" type="text" placeholder="Enter course name">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="course-image">
+                                Course Image
+                            </label>
+                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="course-image" type="file">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="course-description">
+                                Course Description
+                            </label>
+                            <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="course-description" placeholder="Enter course description"></textarea>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                                Create Course
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Quiz Management Form -->
+            <div class="mt-8 hidden" id="quiz-management-form">
+                <div class="p-6 bg-white shadow-lg rounded-lg">
+                    <h2 class="text-xl font-bold mb-4">Create New Quiz</h2>
+                    <form>
+                        <!-- Quiz management form fields will go here -->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('course-management').addEventListener('click', function() {
+            document.getElementById('admin-operations').classList.add('hidden');
+            document.getElementById('course-management-form').classList.remove('hidden');
+            document.getElementById('quiz-management-form').classList.add('hidden');
+        });
+
+        document.getElementById('quiz-management').addEventListener('click', function() {
+            document.getElementById('admin-operations').classList.add('hidden');
+            document.getElementById('course-management-form').classList.add('hidden');
+            document.getElementById('quiz-management-form').classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>
