@@ -9,10 +9,22 @@ const courseSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    prerequisites: [
+        {
+          name: String,
+          standard: Number,
+        }
+      ],
     image: {
-        type: Buffer,
+        type: String,
         required: true
-    }
+    },
+    resources: [
+        {
+            title: String,
+            link: String,
+        }
+    ],
 });
 
 module.exports = mongoose.model('Course', courseSchema);

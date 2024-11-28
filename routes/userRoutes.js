@@ -12,5 +12,7 @@ router.get('/dashboard',studentController.loadDashboard);
 
 router.get('/courses/:courseName', studentController.loadCourseDetails);
 
+router.get('/quiz/:id',studentController.loadQuiz);
+
 
 module.exports = router;

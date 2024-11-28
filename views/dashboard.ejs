@@ -7,12 +7,12 @@
     <title>CareerExplorer Dashboard</title>
     <!-- Tailwind CSS CDN -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <!-- Font Awesome for Icons (Optional) -->
+    <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
         integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2DkKkRJ55WClKj7gI0VZXqw5q4K/fPGMOKgJc++k5/kwmW62T9J1p+mdI1lW7Z9AA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
     <!-- AOS CSS for Animations -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
     <style>
@@ -20,81 +20,36 @@
             font-family: 'Roboto', sans-serif;
         }
 
-        /* Custom Fade-In Animation */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        h1, h2 {
+            font-family: 'Playfair Display', serif;
         }
 
-        .animate-fade-in {
-            animation: fadeIn 1s ease-out forwards;
-        }
-
-        /* Hover Animation for Course Cards */
         .course-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
         }
 
-        /* Transition for Smooth Hover Effect */
+        .course-card img {
+            height: 180px; /* Uniform image height */
+        }
+
         .course-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        /* Stylish Button with Icon */
-        .explore-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background-color 0.3s ease, transform 0.3s ease;
+            transition: all 0.3s ease;
         }
 
         .explore-btn:hover {
             transform: translateY(-2px);
+            background-color: #2563eb;
         }
 
-        /* Notification Styles (Optional) */
+        /* Notification Styles */
         .notification {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%) translateY(-20px);
-            min-width: 300px;
-            max-width: 90%;
-            z-index: 1000;
-            padding: 16px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             opacity: 0;
             transition: opacity 0.5s ease, transform 0.5s ease;
         }
 
-        .notification-success {
-            background-color: #d1fae5;
-            color: #065f46;
-        }
-
-        .notification-error {
-            background-color: #fee2e2;
-            color: #991b1b;
-        }
-
-        .notification i {
-            margin-right: 8px;
-        }
-
         .show {
             opacity: 1;
-            transform: translateX(-50%) translateY(0);
         }
     </style>
 </head>
@@ -103,82 +58,66 @@
     <!-- Header -->
     <header class="bg-blue-600 text-white p-4 flex justify-between items-center shadow-lg">
         <div class="flex items-center">
-            <!-- Optional: Logo -->
-            <!-- <img src="/images/logo.png" alt="CareerExplorer Logo" class="h-8 mr-3"> -->
-            <h1 class="text-2xl font-bold">CareerExplorer</h1>
+            <h1 class="text-3xl font-bold">CareerExplorer</h1>
         </div>
-        <div class="flex items-center space-x-4">
-            <div class="text-lg font-semibold">
-                Welcome, <span class="text-yellow-300">
-                    <%= studentName %>
-                </span>
-            </div>
+        <div class="text-lg font-semibold">
+            Welcome, <span class="text-yellow-300">
+                <%= studentName %>
+            </span>
         </div>
     </header>
 
-    <!-- Notification Containers (Optional) -->
-    <% if (typeof error !=='undefined' && error) { %>
+    <!-- Notifications -->
+    <% if (typeof error !== 'undefined' && error) { %>
         <div class="notification notification-error show">
             <i class="fas fa-exclamation-triangle"></i>
-            <span>
-                <%= error %>
-            </span>
+            <span><%= error %></span>
         </div>
-        <% } %>
-            <% if (typeof success !=='undefined' && success) { %>
-                <div class="notification notification-success show">
-                    <i class="fas fa-check-circle"></i>
-                    <span>
-                        <%= success %>
-                    </span>
+    <% } %>
+    <% if (typeof success !== 'undefined' && success) { %>
+        <div class="notification notification-success show">
+            <i class="fas fa-check-circle"></i>
+            <span><%= success %></span>
+        </div>
+    <% } %>
+
+    <!-- Main Content -->
+    <main class="p-6 flex-grow">
+        <section class="bg-white shadow-md rounded-lg p-6 mb-6 animate-fade-in" data-aos="fade-down">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Welcome to Your Dashboard!</h2>
+            <p class="text-gray-700 mb-4">We're excited to help you explore various career paths tailored just for you. Dive in and discover opportunities that align with your passions and strengths.</p>
+            <hr class="my-6 border-t-2 border-gray-200">
+            <p class="text-gray-600">Here are some courses to get you started:</p>
+        </section>
+
+        <!-- Courses Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <% courses.forEach(function(course) { %>
+                <div class="course-card bg-white p-4 rounded-lg shadow-md">
+                    <img src="<%= course.image %>" alt="Course Image" class="w-full object-cover mb-4 rounded-lg">
+                    <h2 class="text-xl font-semibold mb-2"><%= course.name %></h2>
+                    <p class="text-gray-600 mb-4"><%= course.description %></p>
+                    <button onclick="location.href='/courses/<%= course.name %>'" class="explore-btn bg-blue-500 text-white px-4 py-2 rounded-lg font-bold hover:bg-blue-700">
+                        Explore <i class="fas fa-arrow-right ml-2"></i>
+                    </button>                    
                 </div>
-                <% } %>
+            <% }) %>
+        </div>
+    </main>
 
-                    <!-- Main Content -->
-                    <main class="p-6 flex-grow">
-                        <!-- Welcoming Section -->
-                        <section class="bg-white shadow-md rounded-lg p-6 mb-6 animate-fade-in" data-aos="fade-down">
-                            <h2 class="text-3xl font-bold text-gray-800 mb-4">Welcome to Your Dashboard!</h2>
-                            <p class="text-gray-700 mb-4">We're excited to help you explore various career paths
-                                tailored just for you. Dive in and discover opportunities that align with your passions
-                                and strengths.</p>
-                            <hr class="my-6 border-t-2 border-gray-200">
-                            <p class="text-gray-600">Here are some courses to get you started:</p>
-                        </section>
+    <!-- Footer -->
+    <footer class="bg-blue-600 text-white p-4 text-center mt-auto shadow-inner">
+        &copy; 2024 CareerExplorer. All rights reserved.
+    </footer>
 
-                        <!-- Courses Grid -->
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            <!-- Updated Computer Engineering Course Cards -->
-
-                            <% courses.forEach(function(course){ %>
-                                <!-- Placeholder for course items -->
-                                <div class="p-4 shadow rounded-lg course-container">
-                                    <img src="data:image/jpeg;base64,<%= course.image.toString('base64') %>"
-                                        alt="Course Image" class="w-full h-62 object-cover mb-4 rounded-lg">
-                                    <h2 class="text-xl font-semibold">
-                                        <%= course.name %>
-                                    </h2>
-                                    <p>
-                                        <%= course.description %>
-                                    </p>
-                                </div>
-                                <% }) %>
-                        </div>
-                    </main>
-
-                    <!-- Footer -->
-                    <footer class="bg-blue-600 text-white p-4 text-center mt-auto shadow-inner">
-                        &copy; 2024 CareerExplorer. All rights reserved.
-                    </footer>
-
-                    <!-- AOS JS for Animations -->
-                    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-                    <script>
-                        AOS.init({
-                            duration: 800, // Animation duration
-                            easing: 'ease-out', // Animation easing
-                        });
-                    </script>
+    <!-- AOS JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            easing: 'ease-out',
+        });
+    </script>
 </body>
 
 </html>
