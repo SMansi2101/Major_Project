@@ -1,37 +1,35 @@
 const jwt = require("jsonwebtoken");
 const Student = require("../models/studentModel");
-const Admin = require("../models/adminModel");
+const adminModel = require('../models/adminModel');
+const blacklistTokenModel = require('../models/BlackListedModel');
 
-// Middleware to verify any token (Student or Admin)
-const verifyToken = (req, res, next) => {
-    const token = req.cookies["auth-token"];
+const authAdmin = async (req, res, next) => {
+    const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
+
+
     if (!token) {
-        return res.status(401).json({ message: "Access denied. No token provided." });
+        return res.status(401).json({ message: 'Unauthorized. No token found' });
+    }
+
+    const isBlacklisted = await blacklistTokenModel.findOne({ token });
+
+    if (isBlacklisted) {
+        return res.status(401).json({ message: 'Unauthorized. Token is blacklisted' });
     }
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded;
-        next();
+        const admin = await adminModel.findById(decoded._id);
+         req.admin = admin;
+
+        return next();
+
     } catch (error) {
-        res.status(400).json({ message: "Invalid token" });
+        return res.status(401).json({ message: 'Unauthorized. Invalid token' });
     }
 };
 
-// Middleware to check if the user is an Admin
-const isAdmin = async (req, res, next) => {
-    try {
-        const admin = await Admin.findById(req.user._id);
-        if (!admin) {
-            return res.status(403).json({ message: "Access denied. Admins only." });
-        }
-        next();
-    } catch (error) {
-        res.status(500).json({ message: "Internal Server Error" });
-    }
-};
 
-// Middleware to check if the user is a Student
 const isStudent = async (req, res, next) => {
     try {
         const student = await Student.findOne({ studentId: req.user.studentId });
@@ -46,7 +44,6 @@ const isStudent = async (req, res, next) => {
 };
 
 module.exports = {
-    verifyToken,
-    isAdmin,
-    isStudent
+    isStudent,
+    authAdmin
 };

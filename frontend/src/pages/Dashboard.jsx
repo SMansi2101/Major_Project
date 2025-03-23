@@ -13,7 +13,7 @@ const courses = [
   {
     id: 2,
     title: "Data Science",
-    image: "images/datascience.jpg",
+    image: "images/datascience.jpg",                
     description: "Master Python, machine learning, and AI-driven analytics.",
   },
   {

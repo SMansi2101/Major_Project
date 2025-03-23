@@ -26,7 +26,7 @@ const Home = () => {
                     <span className="text-lg font-semibold">CareerExplorer</span>
                 </div>
                 {/* Admin Only Button - Navigates to /login */}
-                <Link to="/login">
+                <Link to="/admin-login">
                     <button className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-md transition-transform duration-300 hover:scale-105">
                         Admin Only
                     </button>

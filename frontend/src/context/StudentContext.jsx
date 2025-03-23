@@ -2,7 +2,7 @@ import { createContext, useState } from "react";
 
 export const StudentContext = createContext(null);
 
-const StudentProvider = ({ children }) => {
+export const StudentProvider = ({ children }) => {  // ✅ Use named export
     const [student, setStudent] = useState(null);
 
     return (
@@ -11,5 +11,3 @@ const StudentProvider = ({ children }) => {
         </StudentContext.Provider>
     );
 };
-
-export default StudentProvider;
