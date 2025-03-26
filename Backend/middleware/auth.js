@@ -31,15 +31,18 @@ const authAdmin = async (req, res, next) => {
 
 
 const isStudent = async (req, res, next) => {
+    const token = req.headers.authorization?.split(" ")[1];
+
+    if (!token) {
+        return res.status(401).json({ message: "Unauthorized: No token provided" });
+    }
+
     try {
-        const student = await Student.findOne({ studentId: req.user.studentId });
-        if (!student) {
-            return res.status(403).json({ message: "Access denied. Students only." });
-        }
-        req.student = student;
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.student = decoded; // Attach student data to request
         next();
     } catch (error) {
-        res.status(500).json({ message: "Internal Server Error" });
+        return res.status(403).json({ message: "Invalid or expired token" });
     }
 };
 

@@ -12,8 +12,13 @@ const studentSchema = new mongoose.Schema({
 
 // Generate JWT Token
 studentSchema.methods.generateAuthToken = function () {
-    return jwt.sign({ studentId: this.studentId }, process.env.JWT_SECRET, { expiresIn: "24h" });
+    return jwt.sign(
+        { studentId: this.studentId, standard: this.standard },  // Include standard
+        process.env.JWT_SECRET,
+        { expiresIn: "24h" }
+    );
 };
+
 
 const Student = mongoose.model("Student", studentSchema);
 module.exports = Student;

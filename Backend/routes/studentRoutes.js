@@ -4,6 +4,9 @@ const studentController = require("../controllers/studentController");
 const { isStudent } = require("../middleware/auth");
 
 router.post("/register", studentController.register);
-router.get("/dashboard", isStudent, studentController.loadDashboard);
+router.get("/courses", isStudent, studentController.getCourse);
+router.get("/courses/:id", studentController.getCourseById);
+router.get("/quizzes", studentController.getQuizzes);
+
 
 module.exports = router;

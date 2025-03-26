@@ -23,6 +23,10 @@ const Register = () => {
     try {
       const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`, userData);
 
+      if (response.data.token) {
+        localStorage.setItem("token", response.data.token); // Store token
+    }
+
       navigate("/dashboard");
     } catch (error) {
       console.error("Registration Failed:", error.response?.data || error.message);
