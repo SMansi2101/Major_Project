@@ -1,0 +1,27 @@
+{
+  "type": "Compass Connections",
+  "version": {
+    "$numberInt": "1"
+  },
+  "connections": [
+    {
+      "id": "922f3298-62ff-44e4-8c0f-577ce55659c5",
+      "lastUsed": {
+        "$date": {
+          "$numberLong": "1744094747391"
+        }
+      },
+      "favorite": {
+        "name": "Major-Project",
+        "color": "color4"
+      },
+      "savedConnectionType": "recent",
+      "connectionOptions": {
+        "connectionString": "mongodb+srv://mansishinde2101:IiX6kRUD0B6hwR2D@major-project.zun1c.mongodb.net/career-choice-project?retryWrites=true&w=majority&appName=major-project",
+        "oidc": {
+          "serializedState": "eyJvaWRjUGx1Z2luU3RhdGVWZXJzaW9uIjowLCJzdGF0ZSI6W119"
+        }
+      }
+    }
+  ]
+}
