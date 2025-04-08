@@ -34,15 +34,31 @@ const register = async (req, res) => {
 
 const getCourseById = async (req, res) => {
     try {
-        const course = await Course.findById(req.params.id);
-        if (!course) {
+
+        const courseDetails = await CourseDetails.findById(req.params.id)
+            .populate("courseId", "name description image"); // Ensure fields are populated
+
+
+        if (!courseDetails) {
             return res.status(404).json({ message: "Course not found" });
         }
-        res.status(200).json(course);
+
+        // Return all necessary details
+        res.status(200).json({
+            ...courseDetails.toObject(),
+            courseId: courseDetails.courseId?._id, // Ensure correct courseId
+            name: courseDetails.courseId?.name, 
+            description: courseDetails.courseId?.description, 
+            image: courseDetails.courseId?.image 
+        });
     } catch (error) {
+        console.error("Error fetching course:", error);
         res.status(500).json({ message: "Error fetching course", error: error.message });
     }
 };
+
+
+
 const getCourse = async (req, res) => { 
     try {
         if (!req.student || !req.student.standard) {
@@ -64,19 +80,30 @@ const getCourse = async (req, res) => {
 
 const getQuizzes = async (req, res) => {
     try {
-        const { standard } = req.session.student || {}; // Get standard from session
+        const { id } = req.params; // This is courseId
 
-        if (!standard) {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ message: "Invalid Course ID format" });
+        }
+
+        if (!req.student || !req.student.standard) {
             return res.status(400).json({ message: "Student standard is missing" });
         }
 
-        const quizzes = await Quiz.find({ standard: standard }); // Fetch quizzes for the student’s standard
-        res.status(200).json(quizzes);
+        const quiz = await Quiz.findOne({
+            course: id,
+            standard: req.student.standard
+        }).populate("course");
+
+        if (!quiz) {
+            return res.status(404).json({ message: "Quiz not found for this course and standard" });
+        }
+
+        res.status(200).json(quiz);
     } catch (error) {
-        res.status(500).json({ message: "Error fetching quizzes", error: error.message });
+        res.status(500).json({ message: "Error fetching quiz", error: error.message });
     }
 };
-
 
 module.exports = {
     register,

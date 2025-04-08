@@ -51,8 +51,11 @@ module.exports.logoutAdmin = async (req, res) => {
 
 module.exports.uploadCourse = async (req, res) => {
     try {
-        const { name, description, prerequisites, resources, standard } = req.body;
+        const { name, description, standards } = req.body;
         const imagePath = req.file ? `/uploads/${req.file.filename}` : null;
+        
+        // Parse the standards array from the request body
+        const parsedStandards = JSON.parse(standards || "[]");
 
         // Find or create the main course
         let course = await Course.findOne({ name });
@@ -61,28 +64,41 @@ module.exports.uploadCourse = async (req, res) => {
             await course.save();
         }
 
-        // Check if details for this standard already exist
-        const existingDetails = await CourseDetails.findOne({ courseId: course._id, standard });
-        if (existingDetails) {
-            return res.status(400).json({ error: "Course details for this standard already exist" });
+        // Process each standard and save the corresponding course details
+        for (const std of parsedStandards) {
+            const { standard, prerequisites, resources } = std;
+
+            // Check if details for this standard already exist
+            const existingDetails = await CourseDetails.findOne({ courseId: course._id, standard });
+            if (existingDetails) {
+                return res.status(400).json({ error: `Course details for standard ${standard} already exist` });
+            }
+
+            // Parse prerequisites and resources
+            const parsedPrerequisites = prerequisites ? prerequisites.map(prereq => ({
+                title: prereq.title,
+                subPrerequisites: prereq.subPrerequisites.map(sub => ({ name: sub }))
+            })) : [];
+
+            const parsedResources = resources ? resources.map(r => ({ title: r.title, link: r.link })) : [];
+
+            // Save standard-specific details
+            const newCourseDetails = new CourseDetails({
+                courseId: course._id,
+                standard,
+                prerequisites: parsedPrerequisites,
+                resources: parsedResources,
+            });
+
+            await newCourseDetails.save();
         }
 
-        // Save standard-specific details
-        const newCourseDetails = new CourseDetails({
-            courseId: course._id,
-            standard,
-            prerequisites: JSON.parse(prerequisites),
-            resources: JSON.parse(resources),
-        });
-
-        await newCourseDetails.save();
-        res.status(201).json({ message: "Course uploaded successfully", course, newCourseDetails });
+        res.status(201).json({ message: "Course uploaded successfully", course });
     } catch (error) {
         console.error("Error uploading course:", error);
         res.status(500).json({ error: "Error uploading course", details: error.message });
     }
 };
-
 
 
 module.exports.uploadQuiz = async (req, res) => {

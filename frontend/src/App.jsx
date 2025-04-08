@@ -8,6 +8,7 @@ import CourseDetails from "./pages/CourseDetails";
 import Login from "./pages/Login";
 import AdminDashboard from './pages/AdminDashboard';
 import AdminProtectWrapper from './pages/AdminProtectWrapper';
+import QuizPage from "./pages/Quizpage";
 
 
 
@@ -26,6 +27,7 @@ function App() {
             <Route path="/upload-quizzes" element={<UploadQuizz />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/courses/:id" element={<CourseDetails />} />
+            <Route path="/quiz/:id" element={<QuizPage />} />
         </Routes>
     );
 }
